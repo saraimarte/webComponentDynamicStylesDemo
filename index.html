@@ -1,0 +1,149 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Web Component Demo</title>
+	</head>
+
+	<body>
+		<div class="tags">
+		 	<!-- Tags will be dynamically added here -->
+        </div>
+
+        <p> Question: How to change the style of one web component when another web component is clicked?</p>
+        <p> Problems that arised: I tried adding and removing a class to change the style but that didn't work.</p>
+        <p> Solution: That class has to be included inside the web component file of the web component you want to change.</p>
+        <p> Why?: Because web component files are encapsulated. As in they can not read classes outside of it's file. So, when I added the class, it couldn't find it because it was in style.css outside of the web component file.</p>
+
+    </body>
+</html>
+
+<!-- Include the JavaScript files for custom web components -->
+<script src="all-component.js"></script>
+<script src="tag2-component.js"></script>
+
+<style>
+	/* Styling for the tags container */
+	.tags {
+		border: 5px solid red;
+		font-size: 2em;
+		display: flex;
+        flex-wrap:wrap;
+		gap: 1em;
+		padding: 20px;
+	}
+
+	/* Styling for individual tags */
+	.tag {
+		border: 5px solid black;
+	}
+</style>
+
+<script>
+
+// Define the array of tags to be created
+const tags = ["tag1", "tag2", "tag3"];	
+
+// Select the container where tags will be added
+const tagsContainer = document.querySelector(".tags");
+
+// Clear any existing content in the container
+tagsContainer.innerHTML = '';
+
+// Loop through each tag name in the array
+tags.forEach(tag => {
+	console.log(`Creating a new tag component for: ${tag}`);
+
+	// Create a new 'tag2-component' element
+	const myElement = document.createElement("tag2-component");
+
+	// Set the 'name' attribute to the current tag name
+	myElement.setAttribute('name', tag);
+	console.log(`Setting the name attribute to: ${tag}`);
+
+	// Append the new element to the tags container
+	tagsContainer.appendChild(myElement);
+	console.log(`${tag} component added to the tags container.`);
+});
+
+// Create an 'all-component' element and append it to the container
+console.log("Creating and adding 'all-component' to the tags container.");
+const myElement = document.createElement("all-component");
+tagsContainer.appendChild(myElement);
+
+document.addEventListener('DOMContentLoaded', (event) => {
+	console.log("DOM fully loaded. Adding event listeners.");
+
+	// Find the 'all' tag inside the 'all-component' and add a click event listener to it
+	const allTag = document.querySelector("all-component").shadowRoot.querySelector('#all');
+	allTag.addEventListener("click", onAllTagClick);
+	console.log("'all-component' click event listener added.");
+
+	// Add click event listeners to all 'tag2-component' elements
+	const allTags = document.querySelectorAll("tag2-component");
+	allTags.forEach(tag => {
+		tag.addEventListener("click", onTagClick);
+		console.log(`Click event listener added to: ${tag.getAttribute('name')}`);
+	});
+});
+		
+function onAllTagClick() {
+	console.log("Clicked on 'all-component'. Resetting all tags.");
+
+	// Get all 'tag2-component' elements
+	const allTags = document.querySelectorAll("tag2-component");
+	console.log(`Found ${allTags.length} tag components to reset.`);
+
+	// Loop through each tag and remove the 'clickedOn' class
+	allTags.forEach(tag => {
+		const tagElement = tag.shadowRoot.querySelector('.tag');
+		if (tagElement) {
+			tagElement.classList.remove("clickedOn");
+			console.log(`Removed 'clickedOn' class from: ${tag.getAttribute('name')}`);
+		} else {
+			console.warn(`Failed to remove 'clickedOn' class. tagElement is null for: ${tag.getAttribute('name')}`);
+		}
+	});
+
+	// Add the 'clickedOn' class to the 'all' tag
+	const allTag = document.querySelector("all-component").shadowRoot.querySelector('#all');
+	allTag.classList.add("clickedOn");
+	console.log("'clickedOn' class added to the 'all' tag.");
+}
+
+// Function to handle the click event on individual tags
+function onTagClick(event) {
+	console.log('Tag was clicked...'); // Log when the function is triggered
+	console.log('Tag that was clicked:', event.currentTarget); // Log the element the event is bound to
+
+	// Get all 'tag2-component' elements
+	const allTags = document.querySelectorAll("tag2-component");
+
+	// Loop through each tag and remove the 'clickedOn' class
+	allTags.forEach(tag => {
+		const tagElement = tag.shadowRoot.querySelector('.tag');
+		if (tagElement) {
+			tagElement.classList.remove("clickedOn");
+		} else {
+			console.warn('tagElement is null for tag:', tag); // Warn if the tagElement is null
+		}
+	});	
+	    
+	// Remove the 'clickedOn' class from the 'all' tag
+	const allTag = document.querySelector("all-component").shadowRoot.querySelector('#all');
+	if (allTag) {
+		allTag.classList.remove("clickedOn");
+	} else {
+		console.error('allTag is null'); // Error if the 'all' tag is null
+	}
+	    
+	// Add the 'clickedOn' class to the clicked tag
+	const clickedTag = event.currentTarget.shadowRoot.querySelector('.tag');
+	if (clickedTag) {
+		clickedTag.classList.add("clickedOn");
+		console.log('Actual Tag Element:', clickedTag); // Log the clicked tag after adding the class
+	} else {
+		console.error('clickedTag is null'); // Error if the clickedTag is null
+	}
+}
+</script>
