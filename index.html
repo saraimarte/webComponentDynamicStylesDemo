@@ -20,7 +20,7 @@
 
 <!-- Include the JavaScript files for custom web components -->
 <script src="all-component.js"></script>
-<script src="tag2-component.js"></script>
+<script src="tag-component.js"></script>
 
 <style>
 	/* Styling for the tags container */
@@ -42,7 +42,7 @@
 <script>
 
 // Define the array of tags to be created
-const tags = ["tag1", "tag2", "tag3"];	
+const tags = ["tag1", "tag", "tag3"];	
 
 // Select the container where tags will be added
 const tagsContainer = document.querySelector(".tags");
@@ -54,8 +54,8 @@ tagsContainer.innerHTML = '';
 tags.forEach(tag => {
 	console.log(`Creating a new tag component for: ${tag}`);
 
-	// Create a new 'tag2-component' element
-	const myElement = document.createElement("tag2-component");
+	// Create a new 'tag-component' element
+	const myElement = document.createElement("tag-component");
 
 	// Set the 'name' attribute to the current tag name
 	myElement.setAttribute('name', tag);
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 	allTag.addEventListener("click", onAllTagClick);
 	console.log("'all-component' click event listener added.");
 
-	// Add click event listeners to all 'tag2-component' elements
-	const allTags = document.querySelectorAll("tag2-component");
+	// Add click event listeners to all 'tag-component' elements
+	const allTags = document.querySelectorAll("tag-component");
 	allTags.forEach(tag => {
 		tag.addEventListener("click", onTagClick);
 		console.log(`Click event listener added to: ${tag.getAttribute('name')}`);
@@ -90,8 +90,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function onAllTagClick() {
 	console.log("Clicked on 'all-component'. Resetting all tags.");
 
-	// Get all 'tag2-component' elements
-	const allTags = document.querySelectorAll("tag2-component");
+	// Get all 'tag-component' elements
+	const allTags = document.querySelectorAll("tag-component");
 	console.log(`Found ${allTags.length} tag components to reset.`);
 
 	// Loop through each tag and remove the 'clickedOn' class
@@ -116,8 +116,8 @@ function onTagClick(event) {
 	console.log('Tag was clicked...'); // Log when the function is triggered
 	console.log('Tag that was clicked:', event.currentTarget); // Log the element the event is bound to
 
-	// Get all 'tag2-component' elements
-	const allTags = document.querySelectorAll("tag2-component");
+	// Get all 'tag-component' elements
+	const allTags = document.querySelectorAll("tag-component");
 
 	// Loop through each tag and remove the 'clickedOn' class
 	allTags.forEach(tag => {

@@ -63,4 +63,4 @@ class Tag2 extends HTMLElement {
   }
 }
 
-customElements.define('tag2-component', Tag2);
+customElements.define('tag-component', Tag2);
