@@ -1,4 +1,4 @@
-# Question: How to change the style of one web component when another web component is clicked?
+# Question: How to dynamically change the style of one web component when another web component is clicked?
 
 Problems that arised: I tried adding and removing a class to change the style but that didn't work.
 
